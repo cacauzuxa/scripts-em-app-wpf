@@ -13,7 +13,8 @@ internal static class Launcher
     [STAThread]
     private static void Main()
     {
-        using (var mutex = new Mutex(true, MutexName, out var firstInstance))
+        bool firstInstance;
+        using (var mutex = new Mutex(true, MutexName, out firstInstance))
         {
             if (!firstInstance)
             {
@@ -40,10 +41,33 @@ internal static class Launcher
                 CreateNoWindow = true
             };
 
-            using (var process = Process.Start(start))
+            try
             {
-                process?.WaitForExit();
+                using (var process = Process.Start(start))
+                {
+                    if (process == null)
+                    {
+                        ShowError("Não foi possível iniciar a interface do aplicativo.");
+                        return;
+                    }
+
+                    process.WaitForExit();
+                    if (process.ExitCode != 0)
+                    {
+                        ShowError("A interface terminou com erro (código " + process.ExitCode + ").\n" +
+                            "Consulte o log do aplicativo para ver a próxima ação.");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                ShowError("Não foi possível iniciar a interface.\n" + exception.Message);
             }
         }
+    }
+
+    private static void ShowError(string message)
+    {
+        MessageBox.Show(message, AppTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 }

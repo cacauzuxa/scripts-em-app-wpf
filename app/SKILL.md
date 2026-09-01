@@ -19,7 +19,7 @@ Se o usuário invocar `$cacau` explicitamente, siga a orquestração dessa skill
 - **Criar**: leia [references/architecture.md](references/architecture.md), [references/design-system.md](references/design-system.md) e [references/status-safety-logs.md](references/status-safety-logs.md).
 - **Revisar ou reparar**: leia somente as referências ligadas à superfície afetada e aplique [references/core-quality-gate.md](references/core-quality-gate.md).
 - **Preparar outro computador**: leia [references/prerequisites-portability.md](references/prerequisites-portability.md).
-- **Homologar ou publicar**: leia [references/qa-release-gate.md](references/qa-release-gate.md), [references/core-quality-gate.md](references/core-quality-gate.md) e [references/end-to-end-review.md](references/end-to-end-review.md). Aplique `$financial-app-qa` quando disponível.
+- **Homologar ou publicar**: leia [references/qa-release-gate.md](references/qa-release-gate.md), [references/core-quality-gate.md](references/core-quality-gate.md) e [references/end-to-end-review.md](references/end-to-end-review.md). Aplique `$financial-app-qa` somente se o fluxo for financeiro e a skill estiver disponível.
 
 Carregue [references/finance-operations-gate.md](references/finance-operations-gate.md) somente quando o fluxo realmente envolver remessas, pagamentos, CNAB, PIX, boletos, importações, anexos ou efeitos financeiros equivalentes.
 

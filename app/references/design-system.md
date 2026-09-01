@@ -45,11 +45,11 @@ Abas usuais: `Operação`, `Acompanhar tarefas` quando útil, `Manual e FAQ`, `C
 
 Hierarquia: resultado; exceções acionáveis; próxima ação segura; métricas; etapas/progresso; Auditoria recolhível. Evite console técnico aberto, cartões duplicados, contradições e espaço vazio que poderia mostrar informação útil.
 
-## Progresso
+## Progresso (quando o fluxo tiver etapas observáveis)
 
 - `0%` significa não iniciado.
 - Use etapas confirmadas, não apenas relógio.
 - Erro conserva último percentual confirmado e não vira 100%.
-- ETA usa mediana de ao menos três conclusões e informa a fonte.
-- Ramos paralelos mostram contadores independentes.
-- Diferencie `anexado` de `verificado`.
+- ETA só aparece quando houver pelo menos três conclusões comparáveis; informe a fonte ou deixe `NÃO DISPONÍVEL`.
+- Ramos paralelos só aparecem quando existirem no contrato; mostre contadores independentes por ramo.
+- Diferencie `anexado` de `verificado` somente quando o fluxo tiver anexos; para outros artefatos, use o vocabulário de confirmação correspondente.

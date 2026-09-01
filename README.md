@@ -1,5 +1,7 @@
 # Scripts em APP WPF
 
+Versão da skill: **1.2.0**.
+
 Skill pública para transformar automações Windows existentes em aplicativos WPF portáteis, preservando a regra de negócio e tornando o fluxo observável.
 
 O nome público é **Scripts em APP WPF**. O identificador técnico da skill é `app`.
@@ -34,6 +36,30 @@ Depois, invoque-a pelo identificador técnico:
 $app Mapeie este fluxo Windows e proponha a menor camada WPF necessária, sem executar ações externas.
 ```
 
+## Compilar o launcher com ICO
+
+No Windows PowerShell 5.1/.NET Framework, use o helper determinístico e informe
+os três caminhos explicitamente:
+
+```powershell
+.\app\assets\app-template\Build-Launcher.ps1 `
+  -SourcePath .\app\assets\app-template\Launcher.cs `
+  -OutputPath .\tmp\MeuAplicativo.exe `
+  -IconPath .\app\assets\icone.ico `
+  -AppScript Aplicativo\AppInterface.ps1 `
+  -AppTitle MeuAplicativo `
+  -MutexName MeuAplicativo.Singleton
+```
+
+O helper substitui os três placeholders do template em uma fonte temporária,
+localiza csc.exe no PATH ou em C:\Windows\Microsoft.NET\Framework, compila como
+winexe e embute o ICO com /win32icon. A fonte temporária é removida mesmo após
+falha; o helper não executa o launcher nem o fluxo operacional.
+
+Os PS1 públicos declaram UTF-8 e leem fontes com `-Encoding UTF8`; os recursos
+XAML declaram `encoding="utf-8"`. Essa combinação é a alternativa compatível ao
+BOM no Windows PowerShell 5.1 e é coberta pelo teste estático.
+
 ## Estrutura
 
 ```text
@@ -50,6 +76,11 @@ scripts/build_infographic.py
 ## Limites e evidência
 
 `ExitCode=0`, arquivo criado, processo encerrado ou barra em 100% não confirmam, sozinhos, o resultado de negócio. O painel deve mostrar a classificação do resultado, contagens, exceções, próxima ação e trilha de auditoria. Quando a cadeia transitiva, a autorização ou a confirmação externa não puder ser observada, a entrega permanece pendente ou `BLOQUEADO`.
+
+R, limpeza, paralelismo, ETA, controles financeiros e a revisão financial-app-qa
+são condicionais: só entram quando o fluxo os utilizar e a dependência ou
+revisão estiver disponível. A arquitetura mantém o app em Aplicativo/; um
+launcher na raiz exige solicitação explícita.
 
 ## Licença
 

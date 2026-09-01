@@ -2,16 +2,16 @@
 
 ## Gate técnico
 
-- Inventário, efeitos e manifesto SHA-256 concluídos.
-- Parse PowerShell e R.
-- Configuração e contrato JSON válidos.
-- Fixtures de sucesso, atenção, erro e bloqueio.
-- Resultado antigo rejeitado; métricas coerentes.
-- Lock, concorrência, tentativa única e duplicidade testados.
-- Limpeza recuperável, encoding e pré-requisitos testados.
-- Progresso testado em 0%, intermediário, 100%, pendência e erro.
+- Inventário, efeitos e manifesto SHA-256 concluídos quando houver arquivos/efeitos sob escopo.
+- Parse PowerShell; parse de R somente quando houver R no fluxo e Rscript disponível. Caso R seja usado e Rscript não esteja disponível, registre `NOT_CHECKED`.
+- Configuração e contrato JSON válidos quando utilizados.
+- Fixtures de sucesso, atenção, erro e bloqueio aplicáveis ao contrato.
+- Resultado antigo rejeitado e métricas coerentes quando o fluxo produzir resultado persistente.
+- Lock, concorrência, tentativa única e duplicidade testados quando houver risco de execução concorrente ou efeito externo.
+- Limpeza recuperável, encoding e pré-requisitos testados quando essas capacidades existirem.
+- Progresso testado em 0%, intermediário, 100%, pendência e erro quando houver etapas observáveis.
 
-`scripts/validate_app.ps1` cobre somente estrutura e padrões estáticos. Mesmo quando retorna `STATIC_OK`, mantém `release_gate_passed=false`; conclua manualmente todos os gates desta referência e `$financial-app-qa` antes de liberar.
+`scripts/validate_app.ps1` cobre somente estrutura e padrões estáticos. Mesmo quando retorna `STATIC_OK`, mantém `release_gate_passed=false`; conclua manualmente os gates aplicáveis desta referência antes de liberar. Use `$financial-app-qa` somente quando o fluxo for financeiro e a skill estiver disponível.
 
 ## Janela real
 
