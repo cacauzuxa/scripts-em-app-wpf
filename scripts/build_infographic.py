@@ -189,7 +189,7 @@ def page_footer(canvas, doc):
     canvas.line(19 * mm, 9 * mm, width - 19 * mm, 9 * mm)
     canvas.setFont(FONTS["body"], 8.5)
     canvas.setFillColor(MUTED)
-    canvas.drawString(19 * mm, 4.3 * mm, "Scripts em APP WPF · v1.0.0")
+    canvas.drawString(19 * mm, 4.3 * mm, "Scripts em APP WPF · v1.1.0")
     canvas.drawRightString(width - 19 * mm, 4.3 * mm, f"Página {doc.page} / 2")
     canvas.restoreState()
 
@@ -231,11 +231,11 @@ def build():
     ]))
     story += [flow, Spacer(1, 6 * mm), p("O que melhora na prática", H2)]
     story += [Table([[card("Regra preservada", "O app envolve os rodadores existentes. Reescrever a regra de negócio exige pedido e escopo próprios.", BLUE, height=36 * mm), card("Resultado legível", "Contagens, cardinalidades, exceções e próxima ação aparecem antes do ruído técnico.", CYAN, height=36 * mm), card("Portabilidade", "Caminhos relativos, pré-requisitos explícitos e preparação separada ajudam a levar o app a outro computador.", AMBER, height=36 * mm)]], colWidths=[57 * mm, 57 * mm, 57 * mm], style=TableStyle([("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 1)]))]
-    story += [Spacer(1, 4 * mm), p("Contratos neutros: <b>wpf.app.result.v1</b> para o resultado e <b>wpf.flow.inventory.v1</b> para o inventário.", SMALL), PageBreak()]
+    story += [Spacer(1, 4 * mm), p("Contratos neutros: <b>wpf.app.result.v1</b> para o resultado e <b>wpf.flow.inventory.v2</b> para o inventário, com caminhos locais redigidos por padrão.", SMALL), PageBreak()]
 
     # Página 2 — usos, segurança, exemplos e instalação
-    story += [GridBackground(172 * mm), Spacer(1, 6 * mm), p("SCRIPTS EM APP WPF · APLICAÇÃO", KICKER), p("Quando usar e como manter o limite", TITLE)]
-    story += [p("A abordagem é útil quando uma automação Windows já funciona em algum grau, mas sua operação precisa de uma janela portátil, uma leitura de resultado e uma trilha de decisão mais clara. A dependência $cacau é verificada e necessária para separar leitura, mudança e revisão.", DECK), p("Situações de uso", H2)]
+    story += [Spacer(1, 4 * mm), p("SCRIPTS EM APP WPF · APLICAÇÃO", KICKER), p("Quando usar e como manter o limite", TITLE)]
+    story += [p("A abordagem é útil quando uma automação Windows já funciona em algum grau, mas sua operação precisa de uma janela portátil, uma leitura de resultado e uma trilha de decisão mais clara. O shell inicial já conecta tema, ícone e logo; $cacau só participa quando também for invocada explicitamente.", DECK), p("Situações de uso", H2)]
     situations = Table([[card("Fluxo com vários componentes", "Quando R, PowerShell, Excel, e-mail, navegador ou rede aparecem em uma cadeia transitiva que precisa ser inventariada.", BLUE, 80 * mm), card("Equipe em outro computador", "Quando pré-requisitos, caminhos e permissões precisam ser verificados sem executar o fluxo por acidente.", CYAN, 80 * mm)], [card("Resultado com pendência", "Quando encerrar o processo não significa que todos os itens foram confirmados, importados, enviados ou verificados.", AMBER, 80 * mm), card("Ação de risco", "Quando existe pagamento, envio, upload, importação ou limpeza: separar confirmação, efeito e reconciliação.", colors.HexColor("#6E4A8B"), 80 * mm)]], colWidths=[86 * mm, 86 * mm])
     situations.setStyle(TableStyle([
         ("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 1), ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
@@ -244,7 +244,7 @@ def build():
     state_title = ParagraphStyle("StateTitle", parent=H3, fontSize=8.5, leading=10.2)
     states = Table([[card("SUCESSO", "Critérios obrigatórios confirmados.", BLUE, 41 * mm, height=24 * mm, title_style=state_title), card("OK_COM_PENDENCIAS", "Terminou, mas exige decisão.", AMBER, 41 * mm, height=24 * mm, title_style=state_title), card("ERRO", "Falhou sem confirmação suficiente.", colors.HexColor("#B54A3B"), 41 * mm, height=24 * mm, title_style=state_title), card("BLOQUEADO", "Não deve começar ou repetir.", colors.HexColor("#6E4A8B"), 41 * mm, height=24 * mm, title_style=state_title)]], colWidths=[43 * mm, 43 * mm, 43 * mm, 43 * mm])
     states.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 1)]))
-    story += [states, Spacer(1, 4 * mm), p("Exemplo de instalação", H2), code_box("$skill-installer Instale a skill Scripts em APP WPF: https://github.com/cacauzuxa/scripts-em-app-wpf/tree/main/app"), Spacer(1, 3 * mm), p("Depois, invoque <b>$app</b>. A dependência <b>$cacau</b> será verificada e é necessária para separar leitura, mudança e revisão. Uma instalação bem-sucedida não prova homologação: ainda são necessários inventário, contrato, testes, QA em janela real e autorização para efeitos externos.", BODY)]
+    story += [states, Spacer(1, 4 * mm), p("Exemplo de instalação", H2), code_box("$skill-installer Instale a skill Scripts em APP WPF: https://github.com/cacauzuxa/scripts-em-app-wpf/tree/main/app"), Spacer(1, 3 * mm), p("Depois, invoque <b>$app</b>. A skill funciona de forma independente; se você também invocar <b>$cacau</b>, ela poderá orquestrar a implementação. Uma instalação bem-sucedida não prova homologação: ainda são necessários inventário, contrato, testes, QA em janela real e autorização para efeitos externos.", BODY)]
     story += [Spacer(1, 2 * mm), p("Limites honestos", H2), p("Não trate exit code zero, arquivo criado, processo encerrado, barra em 100% ou fixture como prova de negócio. Preserve logs técnicos sem expor credenciais ou dados locais e mantenha a repetição bloqueada quando a confirmação externa for incerta.", BODY)]
 
     doc.build(story, onFirstPage=page_footer, onLaterPages=page_footer)

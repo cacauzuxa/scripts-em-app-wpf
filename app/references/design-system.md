@@ -1,6 +1,6 @@
 # Design técnico-editorial WPF
 
-Este padrão é obrigatório em todos os aplicativos criados pela skill, salvo alteração visual explicitamente solicitada.
+Este padrão é o ponto de partida dos aplicativos criados pela skill, salvo identidade oficial diferente fornecida pelo usuário.
 
 ## Identidade
 
@@ -12,7 +12,15 @@ Este padrão é obrigatório em todos os aplicativos criados pela skill, salvo a
 - Eyebrow `APP INTERFACE`, título claro e subtítulo azul-claro.
 - Status geral no canto superior direito com título, detalhe e progresso.
 
-Copie `assets/icone.png` e `assets/icone.ico` para `Aplicativo/Assets`. São ativos abstratos fornecidos pelo autor e verificados por SHA-256 na criação da skill; consulte `assets/ASSET_PROVENANCE.md`. Só substitua quando o responsável fornecer outra identidade oficial para o fluxo.
+Copie `assets/icone.png`, `assets/icone.ico` e `assets/app-template/BrandTheme.xaml` para `Aplicativo/Assets`; copie `assets/app-template/AppShell.xaml` para `Aplicativo/AppShell.xaml`. Use o shell como base da janela ou replique explicitamente suas ligações de tema, ícone e logo. Consulte `assets/ASSET_PROVENANCE.md`. Só substitua os ativos quando o responsável fornecer outra identidade oficial para o fluxo.
+
+## Ligação obrigatória dos ativos
+
+- Mescle `Assets/BrandTheme.xaml` nos recursos da janela.
+- Defina `Icon="Assets/icone.ico"` no `Window` e use o mesmo ICO ao compilar o launcher.
+- Exiba `Assets/icone.png` no cabeçalho; carregue com `BitmapCacheOption.OnLoad` quando a interface PowerShell construir a imagem em código.
+- Resolva caminhos a partir de `$PSScriptRoot` ou do diretório do aplicativo, nunca da pasta da skill.
+- Verifique em janela real se PNG, ICO, gradiente, fontes e cores semânticas aparecem; presença dos arquivos não é evidência de uso.
 
 ## Cores semânticas
 

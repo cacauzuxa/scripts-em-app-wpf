@@ -4,4 +4,7 @@ interface:
   icon_small: "./assets/icone.png"
   icon_large: "./assets/icone.png"
   brand_color: "#153F78"
-  default_prompt: "Use $app para mapear o fluxo, confirmar o escopo e aplicar o gate Cacau antes de criar ou revisar o aplicativo WPF."
+  default_prompt: "Use $app para mapear o fluxo, preservar a automação oficial e criar ou revisar o aplicativo WPF com evidência proporcional ao risco."
+
+policy:
+  allow_implicit_invocation: true

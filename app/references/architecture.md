@@ -15,10 +15,11 @@ Estrutura recomendada:
 ```text
 Aplicativo/
 |-- AppInterface.ps1
+|-- AppShell.xaml
 |-- AppInterface.Launcher.cs
 |-- App Interface Nome.exe
 |-- config.json
-|-- Assets/icone.png e icone.ico
+|-- Assets/BrandTheme.xaml, icone.png e icone.ico
 |-- Infraestrutura/
 |-- Dados/execucoes, locks e historico_execucoes.csv
 |-- Logs/
@@ -46,7 +47,8 @@ Quando o usuário disser “na mesma pasta”, interprete por padrão como: raiz
 
 ## Recursos iniciais da skill
 
-- Copie `assets/app-template/BrandTheme.xaml` para iniciar os tokens e estilos institucionais.
+- Copie `assets/app-template/BrandTheme.xaml` e `AppShell.xaml` para iniciar a janela com tema, ícone e logo conectados.
+- Ao carregar `AppShell.xaml` por `XamlReader` no PowerShell, defina `ParserContext.BaseUri` para a raiz de `Aplicativo/`; isso resolve `Assets/BrandTheme.xaml`, `icone.ico` e `icone.png` sem depender do diretório atual.
 - Adapte `assets/app-template/Launcher.cs`, substituindo `__APP_SCRIPT__`, `__APP_TITLE__` e `__MUTEX_NAME__`.
 - Copie os ícones aprovados de `assets/`.
 - Esses arquivos são camada de apresentação e inicialização; não copie regras de negócio de outro fluxo.

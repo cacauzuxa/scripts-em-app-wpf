@@ -4,14 +4,15 @@ Skill pública para transformar automações Windows existentes em aplicativos W
 
 O nome público é **Scripts em APP WPF**. O identificador técnico da skill é `app`.
 
-Ao invocar `$app`, a dependência real `$cacau` é verificada e necessária: ela separa leitura, mudança autorizada e revisão. Isso organiza o trabalho; não é promessa de velocidade, economia ou qualidade automática.
+`$app` funciona de forma independente. Se o usuário também invocar `$cacau`, a implementação pode ser delegada conforme as regras dela; a skill não instala dependências nem abre agentes sem esse pedido explícito.
 
 ## O que a skill orienta
 
 - mapear o inventário transitivo antes de editar: chamadas, entradas, saídas, modelos, históricos, dependências e efeitos;
 - manter scripts oficiais, modelos e bases protegidos, registrando hashes SHA-256 quando aplicável;
 - separar interface WPF, worker, parser de resultado e rodadores oficiais;
-- trabalhar com resultado estruturado `wpf.app.result.v1` e inventário `wpf.flow.inventory.v1`;
+- trabalhar com resultado estruturado `wpf.app.result.v1` e inventário seguro `wpf.flow.inventory.v2`;
+- iniciar a janela com tema, ícone e logo já conectados pelo `AppShell.xaml`;
 - diferenciar `SUCESSO`, `OK_COM_PENDENCIAS`, `ERRO` e `BLOQUEADO`;
 - fazer uma tentativa por clique, com lock, idempotência, reconciliação e bloqueio de repetição quando o efeito externo for incerto;
 - verificar e preparar pré-requisitos em ações separadas;
@@ -41,7 +42,7 @@ app/                      # skill distribuível; identificador técnico app
   agents/openai.yaml
   references/              # contratos, arquitetura, segurança, portabilidade e QA
   scripts/                 # inventário e validação estática
-  assets/                  # templates WPF e ícone abstrato fornecido pelo autor
+  assets/                  # shell, tema WPF, PNG e ICO fornecidos pelo autor
 docs/                      # landing page, sitemap, robots e infográfico
 scripts/build_infographic.py
 ```
