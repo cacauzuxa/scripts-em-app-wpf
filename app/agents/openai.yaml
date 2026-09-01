@@ -1,0 +1,7 @@
+interface:
+  display_name: "Scripts em APP WPF"
+  short_description: "Transforma automações em apps WPF portáteis"
+  icon_small: "./assets/icone.png"
+  icon_large: "./assets/icone.png"
+  brand_color: "#153F78"
+  default_prompt: "Use $app para mapear o fluxo, confirmar o escopo e aplicar o gate Cacau antes de criar ou revisar o aplicativo WPF."

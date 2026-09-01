@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cacauzuxa.github.io/scripts-em-app-wpf/sitemap.xml

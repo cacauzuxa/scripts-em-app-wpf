@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scripts em APP WPF — automações Windows em janelas portáteis</title>
+  <meta name="description" content="Skill pública para transformar automações Windows existentes em aplicativos WPF portáteis, preservando regra de negócio, evidência e limites de autorização.">
+  <link rel="canonical" href="https://cacauzuxa.github.io/scripts-em-app-wpf/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Scripts em APP WPF">
+  <meta property="og:description" content="Uma skill técnica para envolver automações Windows existentes em apps WPF portáteis, com resultado observável e revisão Cacau.">
+  <meta property="og:url" content="https://cacauzuxa.github.io/scripts-em-app-wpf/">
+  <meta property="og:image" content="https://cacauzuxa.github.io/scripts-em-app-wpf/icone.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Scripts em APP WPF">
+  <meta name="twitter:description" content="WPF portátil ao redor da automação existente: inventário, contrato, segurança e QA.">
+  <meta name="twitter:image" content="https://cacauzuxa.github.io/scripts-em-app-wpf/icone.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "Scripts em APP WPF",
+    "description": "Skill para transformar automações Windows existentes em aplicativos WPF portáteis, preservando a regra de negócio.",
+    "codeRepository": "https://github.com/cacauzuxa/scripts-em-app-wpf",
+    "programmingLanguage": ["PowerShell", "C#", "R"],
+    "license": "https://github.com/cacauzuxa/scripts-em-app-wpf/blob/main/LICENSE",
+    "version": "1.0.0",
+    "author": {"@type": "Person", "name": "Lucas Forte"}
+  }
+  </script>
+  <style>
+    :root { color-scheme: light; --ink:#10243d; --muted:#49617a; --paper:#f5f1e8; --card:#fffdf8; --navy:#0b2a4a; --blue:#126da5; --cyan:#00a9c7; --amber:#e5a32a; --line:#c8d3dc; font-family: "Segoe UI", system-ui, sans-serif; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:var(--paper); line-height:1.6; }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.14; background-image:linear-gradient(#7790a8 1px,transparent 1px),linear-gradient(90deg,#7790a8 1px,transparent 1px); background-size:32px 32px; mask-image:linear-gradient(to bottom,#000,transparent 72%); }
+    a { color:#075b83; font-weight:700; }
+    a:focus-visible, button:focus-visible { outline:3px solid var(--amber); outline-offset:4px; }
+    .wrap { width:min(1120px,calc(100% - 2rem)); margin:0 auto; }
+    header { border-bottom:1px solid var(--line); background:rgba(245,241,232,.94); }
+    nav { min-height:76px; display:flex; justify-content:space-between; align-items:center; gap:1.25rem; }
+    .brand { color:var(--navy); text-decoration:none; letter-spacing:.02em; }
+    .brand-mark { display:inline-grid; width:2rem; height:2rem; place-items:center; margin-right:.45rem; color:#fff; background:var(--navy); border:2px solid var(--cyan); font-weight:800; }
+    nav ul { display:flex; flex-wrap:wrap; gap:1rem; list-style:none; padding:0; margin:0; }
+    nav a { font-size:.92rem; }
+    .hero { padding:clamp(4rem,10vw,7.5rem) 0 5rem; }
+    .hero-grid { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr); gap:clamp(2rem,7vw,6rem); align-items:center; }
+    .eyebrow { color:#075b83; font-size:.8rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+    h1,h2,h3 { line-height:1.12; letter-spacing:-.025em; margin:0 0 1rem; }
+    h1,h2 { font-family:Georgia,serif; }
+    h1 { max-width:12ch; font-size:clamp(2.8rem,7vw,5.8rem); }
+    h2 { font-size:clamp(2rem,4vw,3.4rem); }
+    h3 { font-size:1.18rem; }
+    .lead,.section-intro { color:var(--muted); max-width:66ch; font-size:clamp(1.05rem,2vw,1.25rem); }
+    .actions { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:2rem; }
+    .button { display:inline-block; padding:.78rem 1.05rem; border:2px solid var(--blue); text-decoration:none; }
+    .button.primary { color:#fff; background:var(--blue); }
+    .button.primary:hover { background:var(--navy); border-color:var(--navy); }
+    .button.secondary { color:var(--navy); background:transparent; }
+    .button.secondary:hover { background:#fff; }
+    .window { position:relative; padding:1rem; border:2px solid var(--navy); background:var(--card); box-shadow:14px 14px 0 var(--cyan); }
+    .window-bar { display:flex; align-items:center; justify-content:space-between; padding:.4rem .55rem; color:#fff; background:var(--navy); font-size:.8rem; }
+    .window-dots { display:flex; gap:.35rem; }
+    .window-dots i { width:.6rem; height:.6rem; display:block; border-radius:50%; background:var(--amber); }
+    .window-body { display:grid; grid-template-columns:85px 1fr; min-height:240px; }
+    .window-side { padding:1rem .55rem; border-right:1px solid var(--line); background:#e9f4f6; }
+    .window-side span { display:block; height:.6rem; margin:.55rem 0; background:#88cbd5; }
+    .window-main { padding:1.1rem; }
+    .window-line { height:.65rem; margin:.65rem 0; background:#cbd9e4; }
+    .window-line.short { width:58%; }
+    .window-status { display:flex; gap:.6rem; align-items:center; margin-top:1.2rem; padding:.75rem; border-left:4px solid var(--amber); background:#fff4d6; font-size:.85rem; }
+    section { padding:5rem 0; }
+    .section-head { max-width:70ch; margin-bottom:2rem; }
+    .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .card { padding:1.45rem; border:1px solid var(--line); background:var(--card); }
+    .card p { margin:0; color:var(--muted); }
+    .card .number { display:inline-grid; width:2rem; height:2rem; place-items:center; margin-bottom:1rem; color:#fff; background:var(--blue); font-weight:800; }
+    .band { color:#fff; background:var(--navy); }
+    .band .section-intro,.band .card p { color:#d9e7ee; }
+    .band .card { border-color:#315473; background:#123758; }
+    .band a { color:#a8eaf2; }
+    .code { overflow:auto; margin:1.5rem 0 0; padding:1rem 1.15rem; color:#e8f8fb; background:#061b30; border-left:4px solid var(--cyan); font: .92rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .states { display:grid; grid-template-columns:repeat(4,1fr); gap:.75rem; }
+    .state { padding:1rem; border-top:5px solid var(--blue); background:var(--card); }
+    .state strong { display:block; margin-bottom:.25rem; }
+    .state.attention { border-color:var(--amber); }
+    .state.error { border-color:#b54a3b; }
+    .state.blocked { border-color:#6e4a8b; }
+    footer { padding:2.5rem 0 3rem; border-top:1px solid var(--line); color:var(--muted); font-size:.94rem; }
+    footer p { margin:.35rem 0; }
+    @media (max-width:780px) { nav { align-items:flex-start; flex-direction:column; padding:1rem 0; } .hero-grid { grid-template-columns:1fr; } .cards,.states { grid-template-columns:1fr 1fr; } section { padding:3.5rem 0; } }
+    @media (max-width:520px) { .cards,.states { grid-template-columns:1fr; } h1 { font-size:clamp(2.7rem,15vw,4rem); } }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="wrap" aria-label="Navegação principal">
+      <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true">W</span><strong>Scripts em APP WPF</strong></a>
+      <ul><li><a href="#metodo">Método</a></li><li><a href="#seguranca">Segurança</a></li><li><a href="#instalacao">Instalação</a></li><li><a href="https://github.com/cacauzuxa/scripts-em-app-wpf">GitHub</a></li></ul>
+    </nav>
+  </header>
+  <main id="inicio">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Skill pública · identificador técnico app</p>
+          <h1>Uma janela clara para um fluxo que já existe.</h1>
+          <p class="lead">Scripts em APP WPF orienta a criação de apps WPF portáteis ao redor de automações Windows existentes. A regra de negócio continua nos scripts oficiais; a interface acrescenta contexto, estados e uma próxima ação segura.</p>
+          <div class="actions"><a class="button primary" href="#instalacao">Instalar a skill</a><a class="button secondary" href="infografico-scripts-em-app-wpf.pdf">Baixar infográfico (PDF)</a></div>
+        </div>
+        <div class="window" aria-label="Ilustração abstrata de uma janela WPF com painel de status">
+          <div class="window-bar"><span>APP WPF / fluxo observado</span><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="window-body"><div class="window-side" aria-hidden="true"><span></span><span></span><span></span><span></span></div><div class="window-main"><h3>Resultado do fluxo</h3><div class="window-line"></div><div class="window-line short"></div><div class="window-status"><strong>OK_COM_PENDENCIAS</strong><br>1 item precisa de decisão</div></div></div>
+        </div>
+      </div>
+    </section>
+    <section id="metodo">
+      <div class="wrap"><div class="section-head"><h2>O método cabe em três perguntas</h2><p class="section-intro">Antes de uma tela bonita, a skill pede um inventário e um contrato. Assim, o aplicativo não esconde dependências ou confunde um processo encerrado com um resultado confirmado.</p></div><div class="cards"><article class="card"><span class="number">01</span><h3>O que o fluxo chama?</h3><p>Mapeie chamadas transitivas, arquivos, modelos, entradas, saídas, dependências, locks e pontos externos.</p></article><article class="card"><span class="number">02</span><h3>O que significa terminar?</h3><p>Defina métricas, exceções, estados e o envelope JSON fresco antes de conectar a interface.</p></article><article class="card"><span class="number">03</span><h3>O que pode ser repetido?</h3><p>Separe preparação de efeitos externos. Uma ação por clique; efeito incerto bloqueia nova tentativa.</p></article></div></div>
+    </section>
+    <section id="seguranca" class="band"><div class="wrap"><div class="section-head"><h2>Segurança como parte da experiência</h2><p class="section-intro">A tela deve responder “o que aconteceu?”, “o que ficou pendente?” e “qual é o próximo passo?”. Detalhes técnicos ficam em Auditoria, sem desaparecer.</p></div><div class="states"><div class="state"><strong>SUCESSO</strong><span>Critérios obrigatórios confirmados.</span></div><div class="state attention"><strong>OK_COM_PENDENCIAS</strong><span>Terminou, mas exige decisão.</span></div><div class="state error"><strong>ERRO</strong><span>Falhou sem confirmação suficiente.</span></div><div class="state blocked"><strong>BLOQUEADO</strong><span>Não deve começar ou repetir.</span></div></div></div></section>
+    <section><div class="wrap"><div class="section-head"><h2>Portabilidade sem apagar o contexto</h2><p class="section-intro">A skill orienta caminhos relativos, pré-requisitos verificáveis, PowerShell nativo para preparação e separação entre interface, worker, parser e rodador oficial. Ela também recomenda QA em uma janela real: foco, teclado, rolagem, redimensionamento, mensagens e cada estado.</p></div><div class="cards"><article class="card"><h3>Contrato neutro</h3><p><code>wpf.app.result.v1</code> e <code>wpf.flow.inventory.v1</code> evitam acoplamento a um ambiente específico.</p></article><article class="card"><h3>Resultado observável</h3><p>Contagens e cardinalidades são explicadas; resultado antigo não é aceito só por ser o mais recente.</p></article><article class="card"><h3>Limite honesto</h3><p>Testes estáticos, fixtures e capturas não são homologação operacional. A primeira execução real precisa ser observada.</p></article></div></div></section>
+    <section id="instalacao" class="band"><div class="wrap"><h2>Instalação</h2><p class="section-intro">Aponte o instalador para a pasta distribuível e invoque o identificador técnico. O nome mostrado ao usuário é Scripts em APP WPF. Ao usar <code>$app</code>, a dependência <code>$cacau</code> será verificada e necessária para separar leitura, mudança e revisão.</p><pre class="code"><code>$skill-installer Instale a skill Scripts em APP WPF: https://github.com/cacauzuxa/scripts-em-app-wpf/tree/main/app</code></pre><div class="actions"><a class="button primary" href="https://github.com/cacauzuxa/scripts-em-app-wpf">Abrir o repositório</a><a class="button secondary" href="https://github.com/cacauzuxa/scripts-em-app-wpf/blob/main/README.md">Ler o README</a></div></div></section>
+  </main>
+  <footer><div class="wrap"><p><strong>Scripts em APP WPF</strong> · versão 1.0.0 · © 2026 Lucas Forte</p><p><a href="https://github.com/cacauzuxa/scripts-em-app-wpf/blob/main/LICENSE">Licença MIT</a> · Landing estática, sem bibliotecas ou fontes externas.</p></div></footer>
+</body>
+</html>
