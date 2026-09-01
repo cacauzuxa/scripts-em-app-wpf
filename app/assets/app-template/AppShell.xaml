@@ -31,20 +31,20 @@
                     <Image x:Name="BrandLogo" Source="Assets/icone.png" Margin="8" Stretch="Uniform" />
                 </Border>
                 <StackPanel Grid.Column="2" VerticalAlignment="Center">
-                    <TextBlock Text="APP INTERFACE" Foreground="{StaticResource BrandYellowBrush}" FontWeight="SemiBold" />
-                    <TextBlock Text="__APP_TITLE__" Foreground="White" Style="{StaticResource PageTitle}" />
-                    <TextBlock Text="__APP_SUBTITLE__" Foreground="#D7E7FF" FontSize="14" />
+                    <TextBlock Text="APP INTERFACE" Foreground="{StaticResource BrandCyanBrush}" FontWeight="SemiBold" />
+                    <TextBlock x:Name="AppTitleText" Text="Aplicativo WPF" Foreground="White" Style="{StaticResource PageTitle}" />
+                    <TextBlock x:Name="AppSubtitleText" Text="Interface pronta para conectar um fluxo existente." Foreground="#D7E7FF" FontSize="14" />
                 </StackPanel>
                 <StackPanel Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <TextBlock x:Name="StatusTitle" Text="Pronto" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Right" />
                     <TextBlock x:Name="StatusDetail" Text="Aguardando início" Foreground="#D7E7FF" HorizontalAlignment="Right" />
                     <ProgressBar x:Name="OverallProgress" Minimum="0" Maximum="100" Value="0"
                                  Width="190" Height="7" Margin="0,10,0,0"
-                                 Foreground="{StaticResource BrandYellowBrush}"
+                                 Foreground="{StaticResource BrandCyanBrush}"
                                  Background="#5577A4"
                                  IsIndeterminate="False" />
                     <TextBlock x:Name="ProgressText" Text="0% · Não iniciado"
-                               Foreground="#D7E7FF" FontSize="11"
+                               Foreground="{StaticResource BrandCyanBrush}" FontSize="11"
                                HorizontalAlignment="Right" Margin="0,4,0,0" />
                 </StackPanel>
             </Grid>

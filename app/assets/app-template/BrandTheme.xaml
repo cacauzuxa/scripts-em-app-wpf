@@ -4,7 +4,8 @@
     <Color x:Key="BrandNavy">#0E2D58</Color>
     <Color x:Key="BrandBlue">#153F78</Color>
     <Color x:Key="BrandBlueLight">#1D4D8D</Color>
-    <Color x:Key="BrandYellow">#F5C518</Color>
+    <Color x:Key="BrandCyan">#00A9C7</Color>
+    <Color x:Key="BrandAmber">#F5C518</Color>
     <Color x:Key="PageBackground">#F3F4F7</Color>
     <Color x:Key="TextPrimary">#102A43</Color>
     <Color x:Key="SuccessBackground">#E8F3ED</Color>
@@ -17,7 +18,9 @@
     <SolidColorBrush x:Key="PageBackgroundBrush" Color="{StaticResource PageBackground}" />
     <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimary}" />
     <SolidColorBrush x:Key="BrandBlueBrush" Color="{StaticResource BrandBlue}" />
-    <SolidColorBrush x:Key="BrandYellowBrush" Color="{StaticResource BrandYellow}" />
+    <SolidColorBrush x:Key="BrandCyanBrush" Color="{StaticResource BrandCyan}" />
+    <SolidColorBrush x:Key="BrandAmberBrush" Color="{StaticResource BrandAmber}" />
+    <SolidColorBrush x:Key="BrandYellowBrush" Color="{StaticResource BrandAmber}" />
     <SolidColorBrush x:Key="SuccessBackgroundBrush" Color="{StaticResource SuccessBackground}" />
     <SolidColorBrush x:Key="SuccessForegroundBrush" Color="{StaticResource SuccessForeground}" />
     <SolidColorBrush x:Key="WarningBackgroundBrush" Color="{StaticResource WarningBackground}" />
@@ -55,7 +58,7 @@
     </Style>
 
     <Style x:Key="NextActionButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
-        <Setter Property="Background" Value="{StaticResource BrandYellowBrush}" />
+        <Setter Property="Background" Value="{StaticResource BrandAmberBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
     </Style>
 </ResourceDictionary>

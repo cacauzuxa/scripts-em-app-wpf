@@ -189,7 +189,7 @@ def page_footer(canvas, doc):
     canvas.line(19 * mm, 9 * mm, width - 19 * mm, 9 * mm)
     canvas.setFont(FONTS["body"], 8.5)
     canvas.setFillColor(MUTED)
-    canvas.drawString(19 * mm, 4.3 * mm, "Scripts em APP WPF · v1.2.0")
+    canvas.drawString(19 * mm, 4.3 * mm, "Scripts em APP WPF · v1.3.0")
     canvas.drawRightString(width - 19 * mm, 4.3 * mm, f"Página {doc.page} / 2")
     canvas.restoreState()
 

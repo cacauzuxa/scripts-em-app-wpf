@@ -10,6 +10,11 @@ internal static class Launcher
     private const string AppTitle = "__APP_TITLE__";
     private const string MutexName = "Local\\__MUTEX_NAME__";
 
+    private static bool IsBootstrapTest
+    {
+        get { return string.Equals(Environment.GetEnvironmentVariable("WPF_APP_BOOTSTRAP_TEST"), "1", StringComparison.Ordinal); }
+    }
+
     [STAThread]
     private static void Main()
     {
@@ -18,8 +23,11 @@ internal static class Launcher
         {
             if (!firstInstance)
             {
-                MessageBox.Show("O aplicativo já está aberto.", AppTitle,
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (!IsBootstrapTest)
+                {
+                    MessageBox.Show("O aplicativo já está aberto.", AppTitle,
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 return;
             }
 
@@ -40,6 +48,8 @@ internal static class Launcher
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
+            // Keep the title out of the command line; AppInterface applies it after XAML parsing.
+            start.EnvironmentVariables["WPF_APP_TITLE"] = AppTitle;
 
             try
             {
@@ -56,6 +66,7 @@ internal static class Launcher
                     {
                         ShowError("A interface terminou com erro (código " + process.ExitCode + ").\n" +
                             "Consulte o log do aplicativo para ver a próxima ação.");
+                        if (IsBootstrapTest) { Environment.ExitCode = process.ExitCode; }
                     }
                 }
             }
@@ -68,6 +79,9 @@ internal static class Launcher
 
     private static void ShowError(string message)
     {
-        MessageBox.Show(message, AppTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        if (!IsBootstrapTest)
+        {
+            MessageBox.Show(message, AppTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 }

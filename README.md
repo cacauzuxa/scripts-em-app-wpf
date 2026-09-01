@@ -1,6 +1,6 @@
 # Scripts em APP WPF
 
-Versão da skill: **1.2.0**.
+Versão da skill: **1.3.0**.
 
 Skill pública para transformar automações Windows existentes em aplicativos WPF portáteis, preservando a regra de negócio e tornando o fluxo observável.
 
@@ -15,6 +15,8 @@ O nome público é **Scripts em APP WPF**. O identificador técnico da skill é 
 - separar interface WPF, worker, parser de resultado e rodadores oficiais;
 - trabalhar com resultado estruturado `wpf.app.result.v1` e inventário seguro `wpf.flow.inventory.v2`;
 - iniciar a janela com tema, ícone e logo já conectados pelo `AppShell.xaml`;
+- usar o `AppInterface.ps1` genérico para carregar o shell com `ParserContext.BaseUri` e aplicar título/subtítulo como propriedades WPF, sem inserir valores na marcação XAML;
+- identificar, como heurística redigida, superfícies HTTP (`Invoke-RestMethod`/`Invoke-WebRequest`), COM de Excel/Outlook, banco e cabeçalhos `Authorization`/`Bearer`;
 - diferenciar `SUCESSO`, `OK_COM_PENDENCIAS`, `ERRO` e `BLOQUEADO`;
 - fazer uma tentativa por clique, com lock, idempotência, reconciliação e bloqueio de repetição quando o efeito externo for incerto;
 - verificar e preparar pré-requisitos em ações separadas;
@@ -54,11 +56,12 @@ os três caminhos explicitamente:
 O helper substitui os três placeholders do template em uma fonte temporária,
 localiza csc.exe no PATH ou em C:\Windows\Microsoft.NET\Framework, compila como
 winexe e embute o ICO com /win32icon. A fonte temporária é removida mesmo após
-falha; o helper não executa o launcher nem o fluxo operacional.
+falha; o launcher entrega `AppTitle` à interface por variável de ambiente, fora
+da linha de comando. O helper não executa o launcher nem o fluxo operacional.
 
-Os PS1 públicos declaram UTF-8 e leem fontes com `-Encoding UTF8`; os recursos
-XAML declaram `encoding="utf-8"`. Essa combinação é a alternativa compatível ao
-BOM no Windows PowerShell 5.1 e é coberta pelo teste estático.
+Os PS1 públicos usam UTF-8 com BOM real e leem fontes com `-Encoding UTF8`; os
+recursos XAML declaram `encoding="utf-8"`. Essa combinação é compatível com o
+Windows PowerShell 5.1 e é coberta pelo teste estático.
 
 ## Estrutura
 

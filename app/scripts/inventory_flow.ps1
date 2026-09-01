@@ -18,6 +18,15 @@ $extensions = @(
 )
 $scriptExtensions = @('.r', '.ps1', '.psm1', '.psd1', '.bat', '.cmd', '.cs', '.js', '.mjs', '.cjs', '.vbs')
 $callPattern = '(?i)\b(source|sys\.source|system2|system)\s*\(|\b(start-process|powershell|pwsh|rscript|cmd(?:\.exe)?|cscript|wscript|shell)\b|\.\s+'
+$surfacePatterns = [ordered]@{
+    HTTP_REQUEST = '(?i)\bInvoke-(?:RestMethod|WebRequest)\b'
+    COM_EXCEL = '(?i)\bNew-Object\s+(?:-ComObject\s+)?Excel(?:\.Application)?\b|\bNew-Object\s+-ComObject\s+Excel\.[A-Za-z]+'
+    COM_OUTLOOK = '(?i)\bNew-Object\s+(?:-ComObject\s+)?Outlook(?:\.Application)?\b|\bNew-Object\s+-ComObject\s+Outlook\.[A-Za-z]+'
+    DATABASE = '(?i)\b(?:Invoke-Sqlcmd|dbConnect|dbSendQuery|dbGetQuery|DBI::dbConnect|RSQLite::SQLite|RMySQL::dbConnect|RODBC::(?:odbcConnect|odbcDriverConnect)|System\.Data\.(?:SqlClient|OleDb)|(?:SqlConnection|OleDbConnection|SQLiteConnection|ODBCConnection|ADODB\.Connection))\b'
+    AUTHORIZATION = '(?i)\bAuthorization\b|\bBearer\b'
+}
+$authorizationPattern = '(?i)(\bAuthorization\b\s*[:=]\s*["'']?)([^"''\r\n,;)}]+)(["'']?)'
+$bearerPattern = '(?i)(?<![A-Za-z0-9_])Bearer\s+([A-Za-z0-9._~+/=-]+)'
 $secretPattern = '(?i)(\b(?:password|senha|token|secret|credential|api[_-]?key|client[_-]?secret|clientsecret)\b\s*(?:=|:)\s*|--(?:password|senha|token|secret|credential|api[_-]?key|client[_-]?secret|clientsecret)\s+)(?:"[^"]*"|''[^'']*''|[^\r\n;,)]+)'
 $absolutePathPattern = '(?i)(?<![A-Za-z0-9_])(?:[A-Z]:[\\/]|\\\\)[^"\r\n;,)]+'
 $readErrors = New-Object 'System.Collections.Generic.List[object]'
@@ -26,6 +35,8 @@ function ConvertTo-SafeText {
     param([AllowNull()][string]$Text)
     if ($null -eq $Text) { return $null }
     $safe = [regex]::Replace($Text, $secretPattern, '$1[REDACTED]')
+    $safe = [regex]::Replace($safe, $authorizationPattern, '$1[REDACTED]$3')
+    $safe = [regex]::Replace($safe, $bearerPattern, 'Bearer [REDACTED]')
     if (-not $IncludeAbsolutePaths) {
         $safe = [regex]::Replace($safe, $absolutePathPattern, '[ABSOLUTE_PATH_REDACTED]')
     }
@@ -72,6 +83,7 @@ $files = @(
             $currentFile = $_
             $relative = Get-DisplayPath $currentFile.FullName
             $calls = New-Object 'System.Collections.Generic.List[object]'
+            $fileSurfaces = New-Object 'System.Collections.Generic.List[string]'
             $hash = $null
             try {
                 $hash = (Get-FileHash -LiteralPath $currentFile.FullName -Algorithm SHA256 -ErrorAction Stop).Hash
@@ -96,7 +108,11 @@ $files = @(
                 }
                 for ($index = 0; $index -lt $lines.Count; $index++) {
                     $line = [string]$lines[$index]
-                    if ($line -notmatch $callPattern) { continue }
+                    $matchedSurfaces = @($surfacePatterns.Keys | Where-Object { $line -match $surfacePatterns[$_] })
+                    if ($matchedSurfaces.Count -eq 0 -and $line -notmatch $callPattern) { continue }
+                    foreach ($surface in $matchedSurfaces) {
+                        if (-not $fileSurfaces.Contains([string]$surface)) { [void]$fileSurfaces.Add([string]$surface) }
+                    }
                     $candidates = New-Object 'System.Collections.Generic.List[object]'
                     foreach ($match in [regex]::Matches($line, '["'']([^"'']+)["'']')) {
                         $value = $match.Groups[1].Value
@@ -125,6 +141,7 @@ $files = @(
                     [void]$calls.Add([ordered]@{
                             line = $index + 1
                             text = ConvertTo-SafeText $line.Trim()
+                            surfaces = @($matchedSurfaces)
                             target_candidates = $candidates.ToArray()
                         })
                 }
@@ -136,6 +153,7 @@ $files = @(
                 size = $currentFile.Length
                 modified_at = $currentFile.LastWriteTime.ToString('o')
                 sha256 = $hash
+                surfaces = $fileSurfaces.ToArray()
                 possible_calls = $calls.ToArray()
             }
         }
@@ -151,9 +169,14 @@ $result = [ordered]@{
     file_count = $files.Count
     files = @($files)
     read_errors = $readErrors.ToArray()
+    detected_surfaces = @($surfacePatterns.Keys | ForEach-Object {
+            $surfaceName = [string]$_
+            if (@($files | Where-Object { @($_.surfaces) -contains $surfaceName }).Count -gt 0) { $surfaceName }
+        })
     limitations = @(
         'Chamadas construídas dinamicamente, aliases e resolução por variáveis podem não ser resolvidos.',
         'Candidatos são identificados por extensão e texto; a existência do arquivo não confirma que ele é executado.',
+        'Superfícies HTTP, COM, banco e autorização são heurísticas textuais; não confirmam conexão, autenticação ou efeito realizado.',
         'Caminhos externos e absolutos são redigidos por padrão; use -IncludeAbsolutePaths somente em manifesto local controlado.',
         'Este manifesto não substitui a confirmação manual da cadeia transitiva, dos comentários e das dependências implícitas.'
     )

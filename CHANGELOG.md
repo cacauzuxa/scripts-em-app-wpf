@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0] - 2026-09-01
+
+- Adicionado `AppInterface.ps1` genérico: carrega `AppShell.xaml` com `ParserContext.BaseUri`, aplica título e subtítulo como propriedades após o parse e oferece bootstrap visual mínimo sem regra de negócio.
+- Launcher propaga `AppTitle` para a interface por ambiente controlado, sem interpolação na linha de comando; o smoke test observa título e subtítulo na janela antes de fechá-la.
+- Inventário passa a sinalizar superfícies HTTP, COM Excel/Outlook, banco e autorização (`Authorization`/`Bearer`) sem emitir valores sensíveis; regressões adversas cobrem tokens e o caminho isolado EXE → interface → janela.
+- Progresso e dados usam token ciano; âmbar fica reservado à próxima ação.
+- README, landing page, fonte do infográfico e metadados técnicos atualizados para 1.3.0.
+
 ## [1.2.0] - 2026-09-01
 
 - Launcher C# compatível com o compilador do Windows PowerShell 5.1/.NET Framework, com tratamento amigável de falha de inicialização e código de saída não zero.
